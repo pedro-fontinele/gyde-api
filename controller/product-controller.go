@@ -9,16 +9,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// ProductController é responsável por gerenciar as requisições relacionadas a produtos.
 type ProductController struct {
 	productUseCase usecase.ProductUseCase
 }
 
+// Setup inicializa e retorna uma instância de ProductController.
 func Setup(productUseCase usecase.ProductUseCase) ProductController {
 	return ProductController{
 		productUseCase: productUseCase,
 	}
 }
 
+// GetAll busca todos os produtos disponíveis e os retorna como resposta JSON.
 func (productController *ProductController) GetAll(context *gin.Context) {
 	products, err := productController.productUseCase.GetAll()
 	if err != nil {
@@ -28,6 +31,7 @@ func (productController *ProductController) GetAll(context *gin.Context) {
 	context.JSON(http.StatusOK, products)
 }
 
+// Create recebe os dados de um produto via JSON, valida e o insere no banco.
 func (productController *ProductController) Create(context *gin.Context) {
 
 	var product model.Product
@@ -47,6 +51,7 @@ func (productController *ProductController) Create(context *gin.Context) {
 	context.JSON(http.StatusCreated, createdProduct)
 }
 
+// GetById busca um produto pelo ID informado na URL.
 func (productController *ProductController) GetById(context *gin.Context) {
 
 	id := context.Param("id")

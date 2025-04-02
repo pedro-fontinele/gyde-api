@@ -6,16 +6,19 @@ import (
 	"gyde-api/model"
 )
 
+// ProductRepository é responsável por gerenciar a comunicação com a tabela de produtos no banco de dados.
 type ProductRepository struct {
 	connection *sql.DB
 }
 
+// Setup inicializa e retorna uma instância de ProductRepository com a conexão ao banco de dados.
 func Setup(connection *sql.DB) ProductRepository {
 	return ProductRepository{
 		connection: connection,
 	}
 }
 
+// GetAll busca todos os produtos armazenados no banco de dados.
 func (pr *ProductRepository) GetAll() ([]model.Product, error) {
 	rows, err := pr.connection.Query("select id, name, price from product")
 	if err != nil {
@@ -45,6 +48,7 @@ func (pr *ProductRepository) GetAll() ([]model.Product, error) {
 	return productList, nil
 }
 
+// Create insere um novo produto no banco de dados e retorna o ID gerado.
 func (pr *ProductRepository) Create(product model.Product) (int, error) {
 	query, err := pr.connection.Prepare("INSERT INTO product (name, price) VALUES ($1, $2) RETURNING Id")
 	if err != nil {
@@ -62,6 +66,7 @@ func (pr *ProductRepository) Create(product model.Product) (int, error) {
 	return product.Id, nil
 }
 
+// GetById busca um produto pelo seu ID no banco de dados.
 func (pr *ProductRepository) GetById(id int) (*model.Product, error) {
 
 	query, err := pr.connection.Prepare("SELECT * FROM product WHERE id = $1")

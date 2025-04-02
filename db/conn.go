@@ -7,6 +7,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
+// Configurações de conexão com o banco de dados PostgreSQL.
 const (
 	host     = "go_db"
 	port     = 5432
@@ -15,6 +16,7 @@ const (
 	dbname   = "gyde-api"
 )
 
+// ConnectDB estabelece uma conexão com o banco de dados PostgreSQL e retorna uma instância de sql.DB.
 func ConnectDB() (*sql.DB, error) {
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",

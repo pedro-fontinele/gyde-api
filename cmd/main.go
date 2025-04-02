@@ -9,6 +9,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// main inicializa o servidor HTTP usando o framework Gin,
+// configura a conexão com o banco de dados e define as rotas da API.
 func main() {
 
 	server := gin.Default()
